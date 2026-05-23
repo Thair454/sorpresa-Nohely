@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Nohely 💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Quicksand:wght@300;400;500;600;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky:        #1a0533;
+  --sky2:       #2d0a4e;
+  --pink:       #ff9a76;
+  --pink2:      #ffd4b8;
+  --lavender:   #e88ccc;
+  --lavender2:  #f7c0e8;
+  --mint:       #ffcba4;
+  --peach:      #ffb347;
+  --gold:       #ffe4a0;
+  --cream:      #fff8f5;
+  --card-bg:    rgba(255,120,60,0.07);
+  --card-border:rgba(255,160,80,0.30);
+}
+ 
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;overflow:hidden;background:#1a0533;
+  font-family:'Quicksand',sans-serif;}
+ 
+#starCanvas{position:fixed;inset:0;width:100%;height:100%;z-index:0;}
+ 
+/* ══ BIRDS ══ */
+.bird{
+  position:fixed;z-index:1;pointer-events:none;
+  font-size:18px;opacity:0;
+}
+@keyframes birdFly{
+  0%  {opacity:0;transform:translate(0,0) scaleX(1);}
+  10% {opacity:.8;}
+  90% {opacity:.8;}
+  100%{opacity:0;transform:translate(-900px,-80px) scaleX(1);}
+}
+ 
+/* ══ LAYOUT ══ */
+#main{
+  position:relative;z-index:2;
+  height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:1rem;
+}
+ 
+/* ══ CARD ══ */
+.card{
+  background:var(--card-bg);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--card-border);
+  border-radius:28px;
+  padding:2.4rem 2.2rem 2rem;
+  text-align:center;
+  max-width:440px;width:95%;
+  box-shadow:
+    0 0 80px rgba(255,120,60,.10),
+    0 0 40px rgba(255,180,80,.08),
+    inset 0 1px 0 rgba(255,255,255,.12);
+  position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--pink),var(--peach),var(--pink),transparent);
+  opacity:.8;
+}
+ 
+/* ══ HEADER ══ */
+.card-emoji{font-size:2rem;margin-bottom:.6rem;display:block;
+  filter:drop-shadow(0 0 8px rgba(255,140,80,.6));}
+.card-question{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(1rem,3.5vw,1.22rem);
+  color:var(--pink2);
+  line-height:1.5;margin-bottom:.3rem;
+  text-shadow:0 0 20px rgba(255,160,80,.3);
+}
+.card-hint{
+  font-size:.78rem;color:rgba(232,140,204,.6);
+  letter-spacing:1.5px;text-transform:uppercase;margin-bottom:1.4rem;
+}
+ 
+/* ══ INPUT ══ */
+#nameInput{
+  width:100%;padding:13px 20px;
+  border:1px solid rgba(255,160,80,.35);
+  border-radius:50px;
+  font-size:1rem;text-align:center;outline:none;
+  color:var(--cream);
+  background:rgba(255,255,255,.06);
+  font-family:'Quicksand',sans-serif;font-weight:600;
+  letter-spacing:2px;
+  transition:border-color .4s,box-shadow .4s;
+}
+#nameInput:focus{
+  border-color:var(--peach);
+  box-shadow:0 0 30px rgba(255,180,80,.25),0 0 0 3px rgba(255,160,60,.10);
+}
+#nameInput::placeholder{color:rgba(255,255,255,.25);font-size:.88rem;letter-spacing:1px;}
+#nameInput:disabled{opacity:.4;}
+ 
+/* ══ STATUS ══ */
+#status{
+  margin-top:.7rem;font-size:.78rem;
+  color:rgba(255,179,120,.6);min-height:18px;
+  opacity:0;transition:opacity .5s;
+  letter-spacing:1.5px;font-style:italic;
+}
+#status.show{opacity:1;}
+ 
+/* ══ GIFT BOX ══ */
+#giftSection{display:none;margin-top:1.4rem;position:relative;}
+ 
+.gift-wrap{
+  position:relative;width:130px;height:120px;
+  margin:0 auto;cursor:pointer;
+}
+ 
+.box-body{
+  position:absolute;bottom:0;left:0;right:0;
+  height:75px;
+  background:linear-gradient(145deg,var(--pink),#e8654a);
+  border-radius:0 0 14px 14px;
+  box-shadow:0 8px 30px rgba(255,100,60,.30),inset 0 1px 0 rgba(255,255,255,.2);
+}
+.box-body::before{
+  content:'';position:absolute;left:50%;top:0;bottom:0;width:16px;
+  transform:translateX(-50%);
+  background:linear-gradient(180deg,var(--peach),#e8a030);
+  border-radius:0;
+}
+.box-body::after{
+  content:'';position:absolute;inset:0;border-radius:0 0 14px 14px;
+  background:linear-gradient(135deg,rgba(255,255,255,.15) 0%,transparent 60%);
+}
+ 
+.box-lid{
+  position:absolute;top:0;left:-6px;right:-6px;
+  height:52px;
+  background:linear-gradient(145deg,#ffcca0,var(--pink));
+  border-radius:10px 10px 4px 4px;
+  box-shadow:0 4px 20px rgba(255,100,60,.25),inset 0 1px 0 rgba(255,255,255,.25);
+  transform-origin:center bottom;
+  transition:transform .8s cubic-bezier(.34,1.2,.64,1),opacity .6s ease;
+  z-index:5;
+  overflow:hidden;
+}
+.box-lid::before{
+  content:'';position:absolute;left:0;right:0;top:50%;height:16px;
+  transform:translateY(-50%);
+  background:linear-gradient(90deg,var(--peach),#e8a030,var(--peach));
+}
+ 
+.bow{
+  position:absolute;top:-18px;left:50%;transform:translateX(-50%);
+  width:50px;height:26px;z-index:10;
+}
+.bow-left,.bow-right{
+  position:absolute;bottom:4px;width:22px;height:18px;border-radius:50%;
+  background:linear-gradient(135deg,var(--peach),#d4801a);
+  box-shadow:0 2px 8px rgba(232,160,48,.5);
+}
+.bow-left {left:2px;transform:rotate(-30deg);}
+.bow-right{right:2px;transform:rotate(30deg);}
+.bow-knot{
+  position:absolute;bottom:2px;left:50%;transform:translateX(-50%);
+  width:10px;height:10px;border-radius:50%;
+  background:var(--gold);z-index:2;
+  box-shadow:0 2px 6px rgba(232,160,48,.6);
+}
+ 
+/* ── GIFT BOX ANIMATIONS ── */
+@keyframes boxBounceIn{
+  0%  {transform:scale(0) rotate(-10deg);opacity:0;}
+  55% {transform:scale(1.12) rotate(4deg);opacity:1;}
+  75% {transform:scale(.95) rotate(-2deg);}
+  100%{transform:scale(1) rotate(0deg);opacity:1;}
+}
+@keyframes boxShake{
+  0%,100%{transform:translateX(0) rotate(0);}
+  15%{transform:translateX(-7px) rotate(-3deg);}
+  30%{transform:translateX(7px) rotate(3deg);}
+  45%{transform:translateX(-5px) rotate(-2deg);}
+  60%{transform:translateX(5px) rotate(2deg);}
+  75%{transform:translateX(-3px) rotate(-1deg);}
+}
+@keyframes lidFlyUp{
+  0%  {transform:translateY(0) rotate(0deg);opacity:1;}
+  30% {transform:translateY(-60px) rotate(-15deg);opacity:1;}
+  100%{transform:translateY(-200px) rotate(-40deg);opacity:0;}
+}
+.box-bouncing{animation:boxBounceIn .9s cubic-bezier(.34,1.3,.64,1) forwards;}
+.box-shaking {animation:boxShake .7s ease-in-out;}
+.lid-opening {animation:lidFlyUp .9s ease-in forwards;}
+ 
+.click-hint{
+  font-size:.72rem;color:rgba(255,200,120,.7);
+  letter-spacing:2px;text-transform:uppercase;
+  margin-top:.6rem;font-style:italic;
+  animation:pulse-hint 2s ease-in-out infinite;
+}
+@keyframes pulse-hint{0%,100%{opacity:.5}50%{opacity:1}}
+ 
+/* ══ POEM SECTION ══ */
+#poemSection{
+  display:none;opacity:0;
+  transition:opacity 1.2s ease;
+  margin-top:.2rem;
+}
+#poemSection.show{opacity:1;}
+ 
+.poem-title{
+  font-family:'Dancing Script',cursive;
+  font-size:clamp(1.5rem,5vw,2rem);
+  color:var(--pink);
+  text-shadow:0 0 20px rgba(255,150,80,.6);
+  margin-bottom:.2rem;
+  line-height:1.2;
+}
+.poem-subtitle{
+  font-size:.72rem;color:rgba(232,140,204,.65);
+  letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem;
+}
+.poem-divider{
+  width:80px;height:1px;margin:.8rem auto 1rem;
+  background:linear-gradient(90deg,transparent,var(--peach),var(--pink),var(--peach),transparent);
+}
+.poem-body{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:.92rem;color:var(--pink2);
+  line-height:2;text-align:center;
+}
+.poem-body .hl{color:var(--lavender2);font-weight:700;font-style:normal;
+  background:rgba(232,140,204,.14);padding:1px 6px;border-radius:4px;}
+.poem-body .hl-pink{color:var(--gold);font-weight:700;font-style:normal;}
+.poem-stanza{margin-bottom:.9rem;}
+.poem-final{
+  color:var(--gold);font-size:1rem;font-weight:700;font-style:italic;
+  margin-top:.5rem;
+  text-shadow:0 0 15px rgba(255,200,80,.5);
+}
+ 
+/* ══ RESET ══ */
+#resetBtn{
+  display:none;margin-top:1.4rem;
+  background:transparent;
+  color:rgba(255,180,100,.7);
+  border:1px solid rgba(255,160,80,.3);
+  font-size:.72rem;font-weight:600;padding:8px 24px;border-radius:50px;
+  cursor:pointer;font-family:'Quicksand',sans-serif;letter-spacing:2px;
+  text-transform:uppercase;transition:all .3s;
+}
+#resetBtn:hover{
+  background:rgba(255,160,80,.12);color:var(--gold);
+  box-shadow:0 0 20px rgba(255,160,80,.25);
+}
+#resetBtn.show{display:inline-block;}
+ 
+/* ══ SPARKLE PARTICLES ══ */
+.sparkle{position:fixed;pointer-events:none;z-index:15;border-radius:50%;
+  background:white;box-shadow:0 0 6px 2px rgba(255,200,100,.8);}
+@keyframes sparklefly{
+  0%  {opacity:1;transform:translate(0,0) scale(1);}
+  100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0);}
+}
+ 
+/* ══ FALLING PETALS ══ */
+.fitem{position:fixed;z-index:6;pointer-events:none;opacity:0;}
+@keyframes itemfall{
+  0%  {opacity:0;transform:translateY(-20px) rotate(-15deg);}
+  8%  {opacity:1;}
+  85% {opacity:1;}
+  100%{opacity:0;transform:translateY(110vh) rotate(20deg);}
+}
+ 
+/* ══ CONFETTI ══ */
+.conf{position:fixed;z-index:20;pointer-events:none;}
+@keyframes cffall{
+  0%  {opacity:1;transform:translateY(0) rotate(0);}
+  100%{opacity:0;transform:translateY(110vh) rotate(720deg);}
+}
+ 
+/* ══ MUSIC BADGE ══ */
+#musicBadge{
+  position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%);
+  background:rgba(30,8,20,.88);border:1px solid rgba(255,160,80,.25);
+  border-radius:50px;padding:.4rem 1.2rem;
+  font-size:.68rem;color:rgba(255,180,100,.65);
+  letter-spacing:1.5px;z-index:30;display:none;
+  backdrop-filter:blur(8px);
+  animation:badgePop .5s cubic-bezier(.34,1.4,.64,1);
+}
+@keyframes badgePop{0%{transform:translateX(-50%) scale(.5);opacity:0}100%{transform:translateX(-50%) scale(1);opacity:1}}
+#musicBadge span{color:var(--pink);}
+</style>
+</head>
+<body>
+ 
+<audio id="miAudio" src="Don Omar - Dutty Love (Lyric Video) ft. Natti Natasha.mp3" loop></audio>
+ 
+<canvas id="starCanvas"></canvas>
+ 
+<div id="main">
+  <div class="card" id="card">
+ 
+    <span class="card-emoji" id="cardEmoji">💌</span>
+    <div class="card-question" id="cardQ">
+      ¿Cómo te llamo, Nohely linda?
+    </div>
+    <div class="card-hint" id="cardHint">escribe la respuesta para descubrir tu mensaje</div>
+ 
+    <input type="text" id="nameInput"
+      placeholder="✦ escribe aquí ✦"
+      autocomplete="off" spellcheck="false"/>
+ 
+    <div id="status"></div>
+ 
+    <div id="giftSection">
+      <div class="gift-wrap" id="giftWrap" onclick="openBox()">
+        <div class="bow">
+          <div class="bow-left"></div>
+          <div class="bow-right"></div>
+          <div class="bow-knot"></div>
+        </div>
+        <div class="box-lid" id="boxLid"></div>
+        <div class="box-body"></div>
+      </div>
+      <div class="click-hint" id="clickHint">toca la cajita 🎁</div>
+    </div>
+ 
+    <div id="poemSection">
+      <div class="poem-title">Nohely, mi osita linda 🌅</div>
+      <div class="poem-subtitle">♡ una socióloga de ensueño ♡</div>
+      <div class="poem-divider"></div>
+      <div class="poem-body">
+        <div class="poem-stanza">
+          Hay una chica con alma de ciencia,<br>
+          que estudia la vida con tanta paciencia,<br>
+          entiende las masas, la historia y el ser,<br>
+          y en cada teoría pone todo su querer.
+        </div>
+        <div class="poem-stanza">
+          Su nombre es <span class="hl-pink">Nohley</span>, la más <span class="hl">dedicada</span>,<br>
+          brillante, curiosa, siempre enamorada<br>
+          del mundo social, del pueblo y la verdad,<br>
+          con una mente llena de luz y claridad.
+        </div>
+        <div class="poem-stanza">
+          Lee entre líneas lo que nadie más ve,<br>
+          comprende el tejido de lo que nos une en pie,<br>
+          <span class="hl">socióloga</span> del alma, del amor y el vivir,<br>
+          que ilumina con saber cada nuevo porvenir.
+        </div>
+        <div class="poem-final">
+          Eres mi <span class="hl">osita linda</span> — tesoro del cielo,<br>
+          la más hermosa que pisó este suelo. 💕🌅
+        </div>
+      </div>
+      <button id="resetBtn" onclick="doReset()">volver a empezar ✦</button>
+    </div>
+ 
+  </div>
+</div>
+ 
+<div id="musicBadge">♪ <span>♡</span> música especial para Nohely</div>
+ 
+<script>
+// ═══════════════════════════════════════
+//  SUNSET SKY
+// ═══════════════════════════════════════
+const canvas = document.getElementById('starCanvas');
+const ctx    = canvas.getContext('2d');
+let W, H;
+ 
+function resize(){
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+ 
+// Soft clouds
+const clouds = Array.from({length:7},()=>({
+  x: Math.random(),
+  y: .15 + Math.random()*.35,
+  w: 120 + Math.random()*200,
+  h: 30  + Math.random()*50,
+  alpha: .06 + Math.random()*.10,
+  speed: .00004 + Math.random()*.00006
+}));
+ 
+// Distant tiny birds (silhouettes)
+const birdData = Array.from({length:12},()=>({
+  x: Math.random(),
+  y: .12 + Math.random()*.28,
+  size: 1.5 + Math.random()*2.5,
+  speed: .00008 + Math.random()*.00012,
+  phase: Math.random()*Math.PI*2,
+  flapSpeed: .08 + Math.random()*.06
+}));
+ 
+// Shimmer particles on the "water/horizon"
+const shimmer = Array.from({length:30},()=>({
+  x: Math.random(),
+  y: .72 + Math.random()*.15,
+  r: .5 + Math.random()*1.5,
+  a: Math.random()*.7+.2,
+  speed: Math.random()*.012+.004,
+  phase: Math.random()*Math.PI*2
+}));
+ 
+let t = 0;
+function drawSunset(){
+  ctx.clearRect(0,0,W,H);
+ 
+  // ── Sky gradient ──
+  const skyGrad = ctx.createLinearGradient(0,0,0,H);
+  skyGrad.addColorStop(0,   '#1a0533');   // deep indigo top
+  skyGrad.addColorStop(.18, '#4a1060');   // purple
+  skyGrad.addColorStop(.38, '#c0365a');   // magenta-rose
+  skyGrad.addColorStop(.54, '#f4622a');   // vivid orange
+  skyGrad.addColorStop(.66, '#fca044');   // amber
+  skyGrad.addColorStop(.78, '#fdd680');   // golden horizon
+  skyGrad.addColorStop(.88, '#f8c46a');   // warm gold
+  skyGrad.addColorStop(1,   '#2a1a40');   // dark ground
+  ctx.fillStyle = skyGrad;
+  ctx.fillRect(0,0,W,H);
+ 
+  // ── Sun ──
+  const sunX = W * .72;
+  const sunY = H * .68;
+  const sunR = 38;
+  // Outer corona
+  const corona = ctx.createRadialGradient(sunX,sunY,sunR,sunX,sunY,sunR*5);
+  corona.addColorStop(0,'rgba(255,220,100,.22)');
+  corona.addColorStop(.4,'rgba(255,160,60,.10)');
+  corona.addColorStop(1,'rgba(255,140,40,0)');
+  ctx.beginPath();ctx.arc(sunX,sunY,sunR*5,0,Math.PI*2);
+  ctx.fillStyle=corona;ctx.fill();
+  // Sun disk
+  const sunGrad = ctx.createRadialGradient(sunX-4,sunY-4,2,sunX,sunY,sunR);
+  sunGrad.addColorStop(0,'rgba(255,245,180,1)');
+  sunGrad.addColorStop(.5,'rgba(255,210,80,.95)');
+  sunGrad.addColorStop(1,'rgba(255,160,40,.85)');
+  ctx.beginPath();ctx.arc(sunX,sunY,sunR,0,Math.PI*2);
+  ctx.fillStyle=sunGrad;ctx.globalAlpha=.88;ctx.fill();ctx.globalAlpha=1;
+ 
+  // Horizon glow bar
+  const hGlow = ctx.createLinearGradient(0,H*.60,0,H*.80);
+  hGlow.addColorStop(0,'rgba(255,180,60,0)');
+  hGlow.addColorStop(.4,'rgba(255,180,60,.18)');
+  hGlow.addColorStop(.7,'rgba(255,140,40,.10)');
+  hGlow.addColorStop(1,'rgba(255,100,30,0)');
+  ctx.fillStyle=hGlow;ctx.fillRect(0,H*.60,W,H*.20);
+ 
+  // Sun reflection on "water/ground"
+  const refW = 80 + Math.sin(t*1.2)*6;
+  const refGrad = ctx.createLinearGradient(sunX,H*.70,sunX,H);
+  refGrad.addColorStop(0,'rgba(255,200,80,.35)');
+  refGrad.addColorStop(.5,'rgba(255,160,60,.15)');
+  refGrad.addColorStop(1,'rgba(255,120,40,0)');
+  ctx.beginPath();
+  ctx.moveTo(sunX-refW/2, H*.70);
+  ctx.lineTo(sunX+refW/2, H*.70);
+  ctx.lineTo(sunX+refW*1.8, H);
+  ctx.lineTo(sunX-refW*1.8, H);
+  ctx.closePath();
+  ctx.fillStyle=refGrad;ctx.fill();
+ 
+  // ── Clouds ──
+  t += .006;
+  clouds.forEach(c=>{
+    c.x += c.speed;
+    if(c.x > 1.15) c.x = -0.15;
+    const cx = c.x * W, cy = c.y * H;
+    const cGrad = ctx.createRadialGradient(cx,cy,0,cx,cy,c.w*.5);
+    cGrad.addColorStop(0,'rgba(255,220,180,'+c.alpha+')');
+    cGrad.addColorStop(.6,'rgba(255,180,120,'+(c.alpha*.5)+')');
+    cGrad.addColorStop(1,'rgba(255,160,100,0)');
+    ctx.beginPath();
+    ctx.ellipse(cx,cy,c.w*.5,c.h*.5,0,0,Math.PI*2);
+    ctx.fillStyle=cGrad;ctx.fill();
+  });
+ 
+  // ── Birds ──
+  birdData.forEach(b=>{
+    b.x -= b.speed;
+    b.phase += b.flapSpeed;
+    if(b.x < -0.05) b.x = 1.05;
+    const bx = b.x * W, by = b.y * H;
+    const wingY = Math.sin(b.phase) * b.size * 1.2;
+    ctx.beginPath();
+    ctx.moveTo(bx, by);
+    ctx.bezierCurveTo(bx-b.size*3, by-wingY, bx-b.size*6, by-wingY*.5, bx-b.size*8, by);
+    ctx.bezierCurveTo(bx-b.size*6, by+wingY*.3, bx-b.size*3, by+wingY*.5, bx, by);
+    ctx.moveTo(bx, by);
+    ctx.bezierCurveTo(bx+b.size*3, by-wingY, bx+b.size*6, by-wingY*.5, bx+b.size*8, by);
+    ctx.bezierCurveTo(bx+b.size*6, by+wingY*.3, bx+b.size*3, by+wingY*.5, bx, by);
+    ctx.fillStyle='rgba(20,5,30,.55)';ctx.fill();
+  });
+ 
+  // ── Shimmer sparkles on horizon ──
+  shimmer.forEach(s=>{
+    const tw = t * s.speed * 60 + s.phase;
+    const alpha = s.a * (.4 + .6*Math.sin(tw));
+    ctx.beginPath();
+    ctx.arc(s.x*W, s.y*H, s.r, 0, Math.PI*2);
+    ctx.fillStyle=`rgba(255,220,120,${alpha})`;
+    ctx.fill();
+  });
+ 
+  requestAnimationFrame(drawSunset);
+}
+drawSunset();
+ 
+// ═══════════════════════════════════════
+//  MAIN LOGIC
+// ═══════════════════════════════════════
+const nameInput   = document.getElementById('nameInput');
+const statusEl    = document.getElementById('status');
+const giftSection = document.getElementById('giftSection');
+const giftWrap    = document.getElementById('giftWrap');
+const boxLid      = document.getElementById('boxLid');
+const clickHint   = document.getElementById('clickHint');
+const poemSection = document.getElementById('poemSection');
+const resetBtn    = document.getElementById('resetBtn');
+const cardQ       = document.getElementById('cardQ');
+const cardHint    = document.getElementById('cardHint');
+const cardEmoji   = document.getElementById('cardEmoji');
+ 
+let triggered = false;
+let boxOpened = false;
+let fallInt   = null;
+let shakeTimeout = null;
+ 
+nameInput.addEventListener('input', ()=>{
+  if(triggered) return;
+  const v = nameInput.value.trim().toLowerCase();
+  if(v === 'osita'){
+    triggerSurprise();
+  } else if(v.length>0){
+    statusEl.textContent = '✦ sigue intentando, mi cielo...';
+    statusEl.classList.add('show');
+  } else {
+    statusEl.textContent='';statusEl.classList.remove('show');
+  }
+});
+ 
+function triggerSurprise(){
+  triggered = true;
+  nameInput.disabled = true;
+ 
+  const audio = document.getElementById('miAudio');
+  audio.volume = 0.8;
+  audio.play();
+ 
+  setTimeout(()=>{
+    document.getElementById('musicBadge').style.display='block';
+  }, 1200);
+ 
+  cardEmoji.textContent = '🎁';
+  statusEl.textContent = '✦ encontré algo para ti...';
+  statusEl.classList.add('show');
+ 
+  setTimeout(()=>{
+    cardQ.style.display='none';
+    cardHint.style.display='none';
+    nameInput.style.display='none';
+    statusEl.style.display='none';
+  }, 800);
+ 
+  setTimeout(()=>{
+    giftSection.style.display='block';
+    giftWrap.classList.add('box-bouncing');
+    startFallingPetals();
+    shakeTimeout = setTimeout(()=>{
+      giftWrap.classList.add('box-shaking');
+      setTimeout(()=>giftWrap.classList.remove('box-shaking'),800);
+    }, 2000);
+    setTimeout(()=>{
+      giftWrap.classList.add('box-shaking');
+      setTimeout(()=>giftWrap.classList.remove('box-shaking'),800);
+    }, 3200);
+  }, 900);
+}
+ 
+function openBox(){
+  if(boxOpened || !triggered) return;
+  boxOpened = true;
+  clearTimeout(shakeTimeout);
+ 
+  boxLid.classList.add('lid-opening');
+  clickHint.style.opacity='0';
+ 
+  burstSparkles();
+  launchConfetti();
+ 
+  setTimeout(()=>{
+    giftSection.style.display='none';
+    poemSection.style.display='block';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      poemSection.classList.add('show');
+    }));
+    setTimeout(()=>resetBtn.classList.add('show'),3000);
+  }, 900);
+}
+ 
+function startFallingPetals(){
+  const items=['🌸','🌺','✨','🍂','🌅','💕','🦋','🌼','⭐','💫','🍁','💛'];
+  fallInt = setInterval(()=>{
+    const el=document.createElement('div');el.className='fitem';
+    const x=Math.random()*100;
+    const dur=3+Math.random()*3;
+    const sz=14+Math.random()*18;
+    el.textContent=items[Math.floor(Math.random()*items.length)];
+    el.style.cssText=`left:${x}%;top:-40px;font-size:${sz}px;animation:itemfall ${dur}s linear forwards;`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),(dur+.3)*1000);
+  }, 400);
+}
+ 
+function burstSparkles(){
+  const rect = giftWrap.getBoundingClientRect();
+  const cx = rect.left + rect.width/2;
+  const cy = rect.top;
+  const colors = ['#ffb347','#ff9a76','#ffd4b8','#ffe4a0','#f4622a','white','#fca044'];
+  for(let i=0;i<50;i++){
+    const el=document.createElement('div');el.className='sparkle';
+    const angle=Math.random()*Math.PI*2;
+    const dist=40+Math.random()*120;
+    const tx=Math.cos(angle)*dist;
+    const ty=Math.sin(angle)*dist - Math.random()*80;
+    const sz=3+Math.random()*6;
+    const dur=.6+Math.random()*.8;
+    const col=colors[Math.floor(Math.random()*colors.length)];
+    el.style.cssText=`
+      left:${cx}px;top:${cy}px;
+      width:${sz}px;height:${sz}px;
+      background:${col};box-shadow:0 0 6px ${col};
+      --tx:${tx}px;--ty:${ty}px;
+      animation:sparklefly ${dur}s ease-out forwards ${Math.random()*.2}s;
+    `;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),2000);
+  }
+}
+ 
+function launchConfetti(){
+  const cols=['#ffb347','#ff9a76','#ffd4b8','#ffe4a0','#f4622a','#fca044','#ffcba4'];
+  for(let i=0;i<70;i++){
+    const el=document.createElement('div');el.className='conf';
+    const c=cols[Math.floor(Math.random()*cols.length)];
+    const sz=4+Math.random()*8;
+    const dur=2+Math.random()*2.5;
+    el.style.cssText=`
+      width:${sz}px;height:${sz}px;background:${c};
+      left:${Math.random()*100}%;top:-10px;
+      border-radius:${Math.random()>.5?'50%':'3px'};
+      box-shadow:0 0 8px ${c};
+      animation:cffall ${dur}s ease-in forwards ${Math.random()*1.5}s;
+    `;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),6000);
+  }
+}
+ 
+function doReset(){
+  triggered=false;boxOpened=false;
+  clearInterval(fallInt);
+  clearTimeout(shakeTimeout);
+  document.querySelectorAll('.fitem,.sparkle,.conf').forEach(e=>e.remove());
+ 
+  const audio = document.getElementById('miAudio');
+  audio.pause();
+  audio.currentTime = 0;
+ 
+  document.getElementById('musicBadge').style.display='none';
+ 
+  cardEmoji.textContent='💌';
+  cardQ.style.display='';cardHint.style.display='';
+  nameInput.style.display='';statusEl.style.display='';
+  nameInput.disabled=false;nameInput.value='';
+  statusEl.textContent='';statusEl.classList.remove('show');
+ 
+  giftSection.style.display='none';
+  giftWrap.classList.remove('box-bouncing','box-shaking');
+  boxLid.classList.remove('lid-opening');
+  clickHint.style.opacity='1';
+ 
+  poemSection.classList.remove('show');
+  setTimeout(()=>{poemSection.style.display='none';},800);
+  resetBtn.classList.remove('show');
+ 
+  nameInput.focus();
+}
+</script>
+</body>
+</html>
